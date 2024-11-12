@@ -5,10 +5,12 @@ import com.springdatajpa.springdatajpa.dto.DtoStudent;
 import com.springdatajpa.springdatajpa.dto.DtoStudentIU;
 import com.springdatajpa.springdatajpa.entities.Student;
 import com.springdatajpa.springdatajpa.services.IStudentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/student")
@@ -16,10 +18,10 @@ public class StudentController implements IStudentController {
     @Autowired
     private IStudentService studentService;
 
-    // DTO kullanilir.
+    // DTO kullanilir. IU = input/update
     @PostMapping("/save")
     @Override
-    public DtoStudent saveStudent(@RequestBody DtoStudentIU dtoStudentIU) {
+    public DtoStudent saveStudent(@RequestBody @Valid DtoStudentIU dtoStudentIU) {
         return studentService.saveStudent(dtoStudentIU);
     }
 
@@ -44,7 +46,7 @@ public class StudentController implements IStudentController {
     @Override
     @PutMapping("/update/{id}")
     public DtoStudent updateStudent(@PathVariable(name = "id") int id,
-                                 @RequestBody DtoStudentIU dtoStudentIU) {
+                                    @RequestBody DtoStudentIU dtoStudentIU) {
         return studentService.updateStudent(id, dtoStudentIU);
     }
 }

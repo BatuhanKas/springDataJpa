@@ -44,7 +44,7 @@ public class StudentService implements IStudentService {
     @Override
     public DtoStudent getStudentWithId(Integer id) {
         try {
-            Optional<Student> optional = studentRepository.findById(id);
+            Optional<Student> optional = studentRepository.findStudentByIdSQL(id);
             Student student = optional.get();
             DtoStudent dtoStudent = new DtoStudent();
             BeanUtils.copyProperties(student, dtoStudent);

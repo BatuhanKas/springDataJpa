@@ -4,7 +4,6 @@ import com.springdatajpa.springdatajpa.entities.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import org.yaml.snakeyaml.events.Event;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +25,11 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
     @Query(value = "select * from student.student", nativeQuery = true)
     List<Student> findAllStudentsSQL();
 
+    // HQL TIPI SORGU
     @Query(value = "from Student s WHERE s.Id= :id")
-    Optional<Student> findStudentById(int id);
+    Optional<Student> findStudentByIdHQL(int id);
+
+    // SQL TIPI SORGU
+    @Query(value = "SELECT * FROM student.student WHERE id=:id", nativeQuery = true)
+    Optional<Student> findStudentByIdSQL(int id);
 }
