@@ -1,17 +1,13 @@
 package com.springdatajpa.springdatajpa.exception;
 
-import com.springdatajpa.springdatajpa.controller.IStudentController;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -23,16 +19,24 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public void handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+    public ResponseEntity<ApiError> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         Map<String, List<String>> errMap = new HashMap<>();
         for (ObjectError objectError : e.getBindingResult().getAllErrors()) {
             String fieldName = ((FieldError)objectError).getField();
-            if (errMap.containsKey(fieldName)) {
-                errMap.put(fieldName, addErrorsToList(errMap.get(fieldName), e.getMessage()));
-            }
-            else {
-                errMap.put(fieldName, addErrorsToList(new ArrayList<>(), e.getMessage()));
-            }
+            if (errMap.containsKey(fieldName))
+                errMap.put(fieldName, addErrorsToList(errMap.get(fieldName), objectError.getDefaultMessage()));
+            else
+                errMap.put(fieldName, addErrorsToList(new ArrayList<>(), objectError.getDefaultMessage()));
         }
+        return ResponseEntity.badRequest().body(setToErrorFormat(errMap));
+    }
+
+    private <T> ApiError<T> setToErrorFormat(T errors) {
+        ApiError<T> apiError = new ApiError<T>();
+        apiError.setId(UUID.randomUUID());
+        apiError.setErrorTime(new Date());
+        apiError.setErrors(errors);
+
+        return apiError;
     }
 }

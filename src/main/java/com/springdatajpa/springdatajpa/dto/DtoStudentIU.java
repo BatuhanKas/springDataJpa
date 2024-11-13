@@ -2,6 +2,7 @@ package com.springdatajpa.springdatajpa.dto;
 
 import java.util.Date;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
