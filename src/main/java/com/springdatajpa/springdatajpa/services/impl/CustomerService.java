@@ -51,13 +51,12 @@ public class CustomerService implements ICustomerService {
         DtoCustomer dtoCustomer = new DtoCustomer();
         Optional<Customer> customer = customerRepository.findById(id);
         if (customer.isPresent()) {
-            System.out.println(customer.get().getName());
-
             BeanUtils.copyProperties(customer.get(), dtoCustomer);
-            System.out.println(dtoCustomer.getName());
 
             DtoAdress dtoAdress = new DtoAdress();
-            dtoAdress.setDescription(customer.get().getAdress().getDescription());
+            Adress adress = customer.get().getAdress();
+            BeanUtils.copyProperties(adress, dtoAdress);
+//            dtoAdress.setDescription(customer.get().getAdress().getDescription());
 
             dtoCustomer.setDtoAdress(dtoAdress);
         }
