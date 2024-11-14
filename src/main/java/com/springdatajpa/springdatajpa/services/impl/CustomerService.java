@@ -7,8 +7,10 @@ import com.springdatajpa.springdatajpa.entities.Customer;
 import com.springdatajpa.springdatajpa.repository.AdressRepository;
 import com.springdatajpa.springdatajpa.repository.CustomerRepository;
 import com.springdatajpa.springdatajpa.services.ICustomerService;
+import org.apache.catalina.mbeans.MBeanUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -27,14 +29,38 @@ public class CustomerService implements ICustomerService {
         Optional<Adress> optional = adressRepository.findById(num);
         if (optional.isPresent()) {
             Customer customer = new Customer();
+
             BeanUtils.copyProperties(dtoCustomer, customer);
             customer.setAdress(optional.get());
             Customer c1 = customerRepository.save(customer);
-            BeanUtils.copyProperties(c1, dtoCustomer);
-            System.out.println("123123123");
-            System.out.println(dtoCustomer.getDtoAdress().getDescription());
-            return dtoCustomer;
+
+            DtoAdress dtoAdress = new DtoAdress();
+            BeanUtils.copyProperties(optional.get(), dtoAdress);
+
+            DtoCustomer response = new DtoCustomer();
+            BeanUtils.copyProperties(c1, response);
+            response.setDtoAdress(dtoAdress);
+
+            return response;
         }
         return null;
+    }
+
+    @Override
+    public DtoCustomer getCustomerById(int id) {
+        DtoCustomer dtoCustomer = new DtoCustomer();
+        Optional<Customer> customer = customerRepository.findById(id);
+        if (customer.isPresent()) {
+            System.out.println(customer.get().getName());
+
+            BeanUtils.copyProperties(customer.get(), dtoCustomer);
+            System.out.println(dtoCustomer.getName());
+
+            DtoAdress dtoAdress = new DtoAdress();
+            dtoAdress.setDescription(customer.get().getAdress().getDescription());
+
+            dtoCustomer.setDtoAdress(dtoAdress);
+        }
+        return dtoCustomer;
     }
 }

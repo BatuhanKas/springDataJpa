@@ -17,4 +17,10 @@ public class CustomerController implements ICustomerController {
     public DtoCustomer saveCustomer(@RequestBody DtoCustomer dtoCustomer) {
         return customerService.saveCustomer(dtoCustomer);
     }
+
+    @Override
+    @GetMapping("/list/{id}")
+    public DtoCustomer getCustomerById(@PathVariable(name = "id", required = true) int id) {
+        return customerService.getCustomerById(id);
+    }
 }

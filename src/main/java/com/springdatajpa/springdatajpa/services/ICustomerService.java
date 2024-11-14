@@ -5,4 +5,6 @@ import com.springdatajpa.springdatajpa.dto.DtoCustomer;
 
 public interface ICustomerService {
     public DtoCustomer saveCustomer(DtoCustomer dtoCustomer);
+
+    public DtoCustomer getCustomerById(int id);
 }

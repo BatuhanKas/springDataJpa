@@ -15,7 +15,7 @@ public class Adress {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
 
-    @Column(name = "description")
+    @Column(name = "description")   
     private String description;
 
     @OneToOne(mappedBy = "adress")
