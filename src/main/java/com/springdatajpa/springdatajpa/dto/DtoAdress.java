@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 public class DtoAdress {
     private int Id;
     private String description;
+    private DtoCustomer customer;
 }
