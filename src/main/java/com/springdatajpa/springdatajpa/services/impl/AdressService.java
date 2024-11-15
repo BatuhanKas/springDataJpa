@@ -35,8 +35,11 @@ public class AdressService implements IAdressService {
             Adress adress = optional.get();
             BeanUtils.copyProperties(adress, dtoAdress);
             DtoCustomer dtoCustomer = new DtoCustomer();
-            dtoCustomer.setId(adress.getCustomer().getId());
-            dtoCustomer.setName(adress.getCustomer().getName());
+            BeanUtils.copyProperties(adress.getCustomer(), dtoCustomer);
+
+            // istege bagli 2.yol manuel set
+//            dtoCustomer.setId(adress.getCustomer().getId());
+//            dtoCustomer.setName(adress.getCustomer().getName());
 
             // do not open
 //            dtoCustomer.setDtoAdress(dtoAdress);

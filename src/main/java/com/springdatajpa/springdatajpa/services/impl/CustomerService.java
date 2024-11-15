@@ -55,8 +55,11 @@ public class CustomerService implements ICustomerService {
 
             DtoAdress dtoAdress = new DtoAdress();
             Adress adress = customer.get().getAdress();
+
+            // istege bagli 2 farkli yapim sekli
+//            dtoAdress.setId(adress.getId());
+//            dtoAdress.setDescription(adress.getDescription());
             BeanUtils.copyProperties(adress, dtoAdress);
-//            dtoAdress.setDescription(customer.get().getAdress().getDescription());
 
             dtoCustomer.setDtoAdress(dtoAdress);
         }
