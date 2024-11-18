@@ -30,9 +30,9 @@ public class HomeService implements IHomeService {
     public DtoHome saveHome(DtoHome dtoHome) {
         Home saveHome = new Home();
         BeanUtils.copyProperties(dtoHome, saveHome);
-        System.out.println("geldinmi");
+//        System.out.println("geldinmi");
         for (int i : dtoHome.getRooms_id()) {
-            System.out.printf("i val:" , i);
+//            System.out.printf("i val:" , i);
             Optional<Room> room = roomRepository.findById(i);
             if (room.isPresent()) {
                 saveHome.getRoom().add(room.get());

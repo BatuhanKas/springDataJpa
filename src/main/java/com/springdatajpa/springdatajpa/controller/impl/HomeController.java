@@ -24,5 +24,4 @@ public class HomeController implements IHomeController {
     public DtoHome getHome(@PathVariable(name = "id") int id) {
         return homeService.getHome(id);
     }
-
 }
