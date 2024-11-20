@@ -36,7 +36,7 @@ public class DepartmentService implements IDepartmentService {
         Optional<Department> optional = departmentRepository.findById(id);
         if (optional.isPresent()) {
             BeanUtils.copyProperties(optional.get(), dtoDepartment);
-            Department dbDepartment = departmentRepository.getDepartmentWithEmployees(id);
+            Department dbDepartment = departmentRepository.findByDepartmentName(dtoDepartment.getDepartmentName());
             for (Employee employee : dbDepartment.getEmployees()) {
                 DtoEmployee dtoEmployee = new DtoEmployee();
                 BeanUtils.copyProperties(employee, dtoEmployee);

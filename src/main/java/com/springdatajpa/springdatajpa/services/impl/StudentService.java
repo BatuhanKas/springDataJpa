@@ -2,11 +2,14 @@ package com.springdatajpa.springdatajpa.services.impl;
 
 import com.springdatajpa.springdatajpa.dto.DtoStudent;
 import com.springdatajpa.springdatajpa.dto.DtoStudentIU;
+import com.springdatajpa.springdatajpa.entities.Course;
 import com.springdatajpa.springdatajpa.entities.Student;
+import com.springdatajpa.springdatajpa.repository.CourseRepository;
 import com.springdatajpa.springdatajpa.repository.StudentRepository;
 import com.springdatajpa.springdatajpa.services.IStudentService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,6 +18,10 @@ import java.util.Optional;
 
 @Service
 public class StudentService implements IStudentService {
+
+    @Autowired
+    private CourseRepository courseRepository;
+
     @Autowired
     private StudentRepository studentRepository;
 
@@ -22,11 +29,26 @@ public class StudentService implements IStudentService {
     public DtoStudent saveStudent(DtoStudentIU dtoStudentIU) {
         Student student = new Student();
         DtoStudent dtoStudent = new DtoStudent();
-
         BeanUtils.copyProperties(dtoStudentIU, student);
+        List<Course> courseList = new ArrayList<>();
+        for (Course course : dtoStudentIU.getCourseList()) {
+            Course course1 = courseRepository.findByName(course.getName());
+            if (course1 == null) {
+                course1 = new Course();
+                course1.setName(course.getName());
+                courseRepository.save(course1);
+            }
+            courseList.add(course1);
+        }
+
+        student.setCourseList(courseList);
+
         Student dbStudent = studentRepository.save(student);
 
         BeanUtils.copyProperties(dbStudent, dtoStudent);
+//
+        dtoStudent.setCourseList(dbStudent.getCourseList());
+// kursu bulamiyorsa orada olusturacak
         return dtoStudent;
     }
 

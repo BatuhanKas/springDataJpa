@@ -11,7 +11,9 @@ import java.util.List;
 @Repository
 public interface DepartmentRepository extends JpaRepository<Department, Integer> {
 
-    @Query(value = "from Department d LEFT JOIN FETCH d.employees WHERE d.Id=:id")
-    Department getDepartmentWithEmployees(int id);
+//    @Query(value = "from Department d LEFT JOIN FETCH d.employees WHERE d.Id=:id")
+//    Department getDepartmentWithEmployees(int id);
+
+    Department findByDepartmentName(String name);
 
 }

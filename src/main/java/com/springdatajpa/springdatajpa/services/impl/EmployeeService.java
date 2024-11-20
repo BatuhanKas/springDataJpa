@@ -4,6 +4,7 @@ import com.springdatajpa.springdatajpa.dto.DtoDepartment;
 import com.springdatajpa.springdatajpa.dto.DtoEmployee;
 import com.springdatajpa.springdatajpa.entities.Department;
 import com.springdatajpa.springdatajpa.entities.Employee;
+import com.springdatajpa.springdatajpa.repository.DepartmentRepository;
 import com.springdatajpa.springdatajpa.repository.EmployeeRepository;
 import com.springdatajpa.springdatajpa.services.IEmployeeService;
 import org.springframework.beans.BeanUtils;
@@ -20,16 +21,16 @@ public class EmployeeService implements IEmployeeService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+    @Autowired
+    private DepartmentRepository departmentRepository;
 
     @Override
     public DtoEmployee saveEmployee(DtoEmployee dtoEmployee) {
+
         Employee employee = new Employee();
         BeanUtils.copyProperties(dtoEmployee, employee);
 
-        Department departmentDb = employeeRepository.findByDepartmentName(dtoEmployee.getDepartment().getDepartmentName());
-
-        employee.setDepartment(departmentDb);
-//        employee.getDepartment().getEmployees().add(employee);
+        employee.setDepartment(departmentRepository.findByDepartmentName(employee.getDepartment().getDepartmentName()));
 
         Employee employeeDb = employeeRepository.save(employee);
 

@@ -16,6 +16,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 //    @Query("SELECT d FROM Department d WHERE d.departmentName = :departmentName")
 //    Department findByDepartmentName(String departmentName);
 
-    @Query("from Department d WHERE d.departmentName=:departmentName")
-    Department findByDepartmentName(String departmentName);
+//    @Query("from Department d WHERE d.departmentName=:departmentName")
+    Department findByDepartment(Department department);
+
 }

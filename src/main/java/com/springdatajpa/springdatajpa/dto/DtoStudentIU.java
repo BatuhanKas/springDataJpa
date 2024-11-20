@@ -1,7 +1,10 @@
 package com.springdatajpa.springdatajpa.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import com.springdatajpa.springdatajpa.entities.Course;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -23,4 +26,6 @@ public class DtoStudentIU {
     private String lastName;
 
     private Date birthday;
+
+    private List<Course> courseList = new ArrayList<>();
 }
